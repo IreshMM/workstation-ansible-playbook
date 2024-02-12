@@ -1,0 +1,5 @@
+misc_packages:
+ - git
+ - tmux
+ - vim
+ 

@@ -1,0 +1,18 @@
+version: '3'
+services:
+  ansible:
+    image: ireshmm/ansible-devcontainer:latest
+    build:
+      context: ansible
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspace:cached
+      - ssh_dir:/root/.ssh
+    command: sleep infinity
+volumes:
+  ssh_dir:
+    driver: local
+    driver_opts:
+      device: /home/iresh/.ssh
+      o: bind
+      type: none

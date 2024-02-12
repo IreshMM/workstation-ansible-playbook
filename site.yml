@@ -1,0 +1,9 @@
+- name: Ensure common configuration
+  hosts: workstation
+  roles:
+    - role: common
+
+- name: Install and configure docker
+  hosts: workstation
+  roles:
+    - role: ansible-role-docker
