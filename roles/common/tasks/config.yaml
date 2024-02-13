@@ -1,0 +1,40 @@
+- name: Ensure user exists
+  user:
+    name: "{{ user }}"
+    state: present
+    shell: /bin/bash
+    createhome: yes
+    home: /home/{{ user }}
+    groups: sudo
+    append: yes
+    password: "{{ user_password }}"
+- name: Add authorized keys
+  authorized_key:
+    user: "{{ user }}"
+    key: "{{ item }}"
+    state: present
+  with_file: "{{ authorized_keys }}"
+- name: Clone config repo
+  become_user: "{{ user }}"
+  git:
+    repo: "{{ config_repo }}"
+    dest: "{{ config_repo_worktree }}"
+    update: yes
+    force: yes
+- name: Link vim configurations
+  template:
+    src: vimrc.j2
+    dest: /home/{{ user }}/.vimrc
+    owner: "{{ user }}"
+    group: "{{ user }}"
+- name: Link tmux configurations
+  template:
+    src: tmux.conf.j2
+    dest: /home/{{ user }}/.tmux.conf
+    owner: "{{ user }}"
+    group: "{{ user }}"
+- name: Link shell configurations
+  lineinfile:
+    path: /home/{{ user }}/.bashrc
+    line: "source {{ config_repo_worktree }}/shell/bash/bashrc"
+    create: yes

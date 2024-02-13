@@ -1,5 +1,11 @@
+user: iresh
+authorized_keys:
+ - /root/.ssh/id_rsa.pub
+plain_text_user_password: 
+user_password: '{{ plain_text_user_password | password_hash("sha512") if plain_text_user_password else "$6$kqEIYNAbB5AYWwmd$FKxZxdsvpndJLO9ZMw.vO/QZsZbyDmXSLwjl4NKFt.vnZKOVnEiDOdRgO1Kgm6Xw5xfJ3ALWRauEWAgTY498B." }}'
 misc_packages:
- - git
- - tmux
- - vim
- 
+  - git
+  - tmux
+  - vim
+config_repo: https://github.com/IreshMM/iresh-s-configs.git
+config_repo_worktree: /home/{{ user }}/iresh-s-configs
